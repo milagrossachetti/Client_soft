@@ -10,6 +10,7 @@ const SearchComponent = ({ onSelectPatient }) => {
     const [cuil, setCuil] = useState('');
     const [showList, setShowList] = useState(null)
 
+
     useEffect(() => {
         if (!cuil.trim()) {
             setPatients(null);

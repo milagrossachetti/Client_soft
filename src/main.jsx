@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 import MainMenu from './pages/MainMenu.jsx';
 import MedicalRecord from './pages/MedicalRecord.jsx';
+import Evolutions from './pages/Evolutions.jsx';
+
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +20,10 @@ const routes = createBrowserRouter([
   {
     path: '/medicalRecord',
     element: <MedicalRecord />,
+  },
+  {
+    path: '/evolutions',
+    element: <Evolutions />,
   },
 ]);
 

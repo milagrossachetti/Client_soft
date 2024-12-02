@@ -1,10 +1,10 @@
-.patient-details {
+.patient-details, .diagnostico-details {
     font-family: Arial, sans-serif;
     padding: 20px;
     background-color: white;
     margin: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .patient-details h2 {
@@ -16,6 +16,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     gap: 10px;
+    margin-top: 10px;
 }
 
 .patient-info p {
@@ -26,4 +27,50 @@
 
 .patient-info span {
     font-weight: bold;
+}
+h2{
+    margin: 0;
+}
+.name-diagnostico{
+    font-size: 20px;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+
+}
+.diagnostico-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d1d5db;
+    padding-bottom: 10px;
+}
+.data, .item-evolution{
+    display: flex;
+    align-items: center;
+}
+p{
+    margin-bottom: 0;
+}
+.especialidad {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    height: 25px;
+    width: 90px;
+    border-radius: 15px;
+    border: 1px solid #d1d5db;
+    font-weight: 600;
+}
+
+.button-evolutions{
+    background-color: white;
+    width: 200px;
+    color: black;
+    border-radius: 10px;
+    border: none;
+}
+
+.button-evolutions:hover{
+    background-color: #ededee;
 }
