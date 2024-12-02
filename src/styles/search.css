@@ -9,6 +9,10 @@
     transition: box-shadow 0.3s;
 }
 
+.input-wrapper{
+    width: 100%;
+}
+
 input{
     width: 100%;
     border: none;
@@ -20,9 +24,8 @@ input{
     margin-top: 0;
     margin-right: 15px;
     margin-left: 15px;
-    margin-bottom: 15px;
     border-radius: 5px;
-    border: 0.5px solid #d1d5db;
+    border: 0.01px solid #d1d5db;
     background-color: white;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     transition: box-shadow 0.3s;
@@ -54,4 +57,9 @@ input{
 
 span{
     margin-right: 20px;
+}
+.error-search{
+    font-size: 16px;
+    color: red;
+    font-family: Arial, sans-serif;
 }
