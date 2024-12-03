@@ -24,7 +24,7 @@ const routes = createBrowserRouter([
   {
     path: '/evolutions',
     element: <Evolutions />,
-  },
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(

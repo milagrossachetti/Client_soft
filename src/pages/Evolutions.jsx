@@ -1,5 +1,7 @@
 import Navbar from '../components/Navbar.jsx';
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import Popup from "reactjs-popup";
 import PatientInformation from '../components/PatientInformation.jsx';
 import '../styles/evolutions.css';
 import { NotepadTextDashed, FileText, CirclePlus } from 'lucide-react';
@@ -15,6 +17,12 @@ const Evolutions = () => {
     );
 
     const nombreDiagnostico = diagnostico.nombreDiagnostico;
+    const [selectedRecetas, setSelectedRecetas] = useState(null);
+
+    const handleOpenPopup = (recetas) => {
+        setSelectedRecetas(recetas);
+    };
+
 
     return (
         <>
@@ -50,8 +58,12 @@ const Evolutions = () => {
                                     {evolucion.plantillaLaboratorio && (
                                         <p className='template-item'><NotepadTextDashed size={18} color="#4a4aa1" style={{ marginRight: '8px' }} /> Plantilla de laboratorio</p>
                                     )}
-                                    {evolucion.recetas && (
-                                        <p className='template-item'><FileText size={18} color="#4a4aa1" style={{ marginRight: '8px' }} />Recetas</p>
+                                    {evolucion.recetas.length > 0 && (
+                                        <p className='template-item'
+                                            onClick={() => { handleOpenPopup(evolucion.recetas); }}>
+                                            <FileText size={18} color="#4a4aa1" style={{ marginRight: '8px' }} />
+                                            Recetas
+                                        </p>
                                     )}
                                 </div>
                             </div>
@@ -59,6 +71,35 @@ const Evolutions = () => {
                     </div>
                 ))}
             </div>
+            <Popup open={!!selectedRecetas} onClose={() => setSelectedRecetas(null)} modal>
+                <div className='container-recetas'>
+                    <h2>Receta</h2>
+                    {selectedRecetas && (
+                        <ul className='list-receta'>
+                            {selectedRecetas.map((receta, index) => (
+                                <div key={index}>
+                                    <div className='container-data-doctor'>
+                                        <div>
+                                            <li className='li-receta'>{receta.nombreMedico}</li>
+                                            <li className='li-receta'>{receta.especialidadMedico}</li>
+                                        </div>
+                                        <div>
+                                            <li className='li-receta'>{new Date(receta.fecha).toLocaleDateString()}</li>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <li className='li-receta medicamentos'>Medicamentos:</li>
+                                        {receta.medicamentos.map(medicamento => (
+                                            <li key='medicamento' className='li-receta'>{medicamento.nombre}</li>
+                                        ))
+                                        }
+                                    </div>
+                                </div>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </Popup>
 
         </>
     )
