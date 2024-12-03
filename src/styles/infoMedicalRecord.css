@@ -33,10 +33,9 @@ h2{
 }
 .name-diagnostico{
     font-size: 20px;
-    font-weight: 600;
-    font-family: Arial, sans-serif;
-
+    font-weight: bold;
 }
+
 .diagnostico-info{
     display: flex;
     justify-content: space-between;
@@ -52,25 +51,39 @@ p{
     margin-bottom: 0;
 }
 .especialidad {
-    display: flex; 
+    display: inline-flex; 
     justify-content: center; 
     align-items: center; 
     text-align: center; 
-    height: 25px;
-    width: 90px;
+    padding: 5px 10px;
     border-radius: 15px;
     border: 1px solid #d1d5db;
     font-weight: 600;
+    white-space: nowrap;
+}
+
+
+.buttons{
+    display: flex;
+    gap: 5px;
 }
 
 .button-evolutions{
     background-color: white;
-    width: 200px;
-    color: black;
-    border-radius: 10px;
-    border: none;
+    border-radius: 5px;
 }
-
-.button-evolutions:hover{
+.button-see-evolutions{
+    border: 1px solid #d1d5db;
+    color: black;
+}
+.button-see-evolutions:hover{
     background-color: #ededee;
+}
+.button-add-evolution{
+    border: 1px solid #5e61d5;
+    background-color: #5e61d5;
+    color: white;
+}
+.button-add-evolution:hover{
+    background-color: #4245ab;
 }

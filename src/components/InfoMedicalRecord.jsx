@@ -1,7 +1,8 @@
 import '../styles/infoMedicalRecord.css';
+import PatientInformation from '../components/PatientInformation.jsx';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, User, ChevronRight } from 'lucide-react';
+import { Calendar, ChevronRight, User, CirclePlus } from 'lucide-react';
 
 
 const InfoMedicalRecord = ({ patient }) => {
@@ -14,14 +15,7 @@ const InfoMedicalRecord = ({ patient }) => {
 
     return (
         <div>
-            <div className="patient-details">
-                <h2>{patient.nombreCompleto}</h2>
-                <div className="patient-info">
-                    <p><span>CUIL:</span>{patient.cuil}</p>
-                    <p><span>Fecha de nacimiento:</span>{patient.fechaNacimiento}</p>
-                    <p><span>Obra social:</span>{patient.obraSocialId}</p>
-                </div>
-            </div>
+            <PatientInformation patient={patient} />
             <div className="diagnostico-details">
                 <h2>Diagnósticos</h2>
                 {diagnosticos.map(diagnostico => (
@@ -35,11 +29,11 @@ const InfoMedicalRecord = ({ patient }) => {
                                         <p>{ultimaEvolucion.texto}</p>
                                         <div className='data'>
                                             <div className='item-evolution'>
-                                                <Calendar size={18} color="blue" style={{ paddingTop: '8px' }} />
+                                                <Calendar size={18} color="#4a4aa1" style={{ paddingTop: '8px' }} />
                                                 <p>{new Date(ultimaEvolucion.fechaEvolucion).toLocaleDateString()}</p>
                                             </div>
                                             <div className='item-evolution'>
-                                                <User size={20} color="blue" style={{ paddingTop: '8px' }} />
+                                                <User size={18} color="#4a4aa1" style={{ paddingTop: '8px' }} />
                                                 <p>{ultimaEvolucion.nombreMedico}</p>
                                             </div>
                                             <p className='especialidad'>{ultimaEvolucion.especialidadMedico}</p>
@@ -48,11 +42,12 @@ const InfoMedicalRecord = ({ patient }) => {
                                 );
                             })()}
                         </div>
-                        <button onClick={() => navigate('/evolutions')} className='button-evolutions'>Ver evoluciones <ChevronRight /></button>
+                        <div className='buttons'>
+                            <button onClick={() => navigate('/evolutions', { state: { patient, diagnosticoId: diagnostico.id } })} className='button-evolutions button-see-evolutions'>Ver evoluciones <ChevronRight /></button>
+                            <button className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
+                        </div>
                     </div>
                 ))}
-
-
             </div>
         </div>
     );
