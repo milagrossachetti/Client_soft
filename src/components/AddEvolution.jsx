@@ -1,5 +1,5 @@
 import { FileText, NotepadTextDashed, Microscope, Pill, CirclePlus, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import SearchMedicamentos from '../components/SearchMedicamentos'
 import '../styles/addevolution.css';
@@ -44,7 +44,7 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [buttonSelected, setButtonSelected] = useState(null);
     const itemsLabSelected = labs.find(lab => lab.name == labSelected)?.items;
-
+    const data = watch();
     const handleChange = (event) => {
         setLabSelected(event.target.value);
         setValue('laboratorio.tiposEstudios', [event.target.value]);
@@ -76,6 +76,9 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
             prevMedicamentos.filter((medicamento) => medicamento !== medicamentoSeleccionado)
         );
     };
+    useEffect(() => {
+        setValue('receta.medicamentos', medicamentosSeleccionado);
+    }, [medicamentosSeleccionado, setValue]);
 
     return (
         <div className="evolutions">
@@ -145,7 +148,6 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
                             </div>
                         </div>
                     )}
-                    {/*ver como agregar en la lista  */}
                     {buttonSelected === "laboratorio" && (
                         <div className='lab'>
                             <h4>Plantilla de laboratorio</h4>
@@ -194,10 +196,28 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
                         <h3>Contenido de la evolución</h3>
                         <button type="submit" className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Agregar evolución </button>
                     </div>
-                    <pre>{JSON.stringify(watch(), null, 2)}</pre>
-
+                    <div>
+                        <h4>Texto</h4>
+                        <p>{data.texto}</p>
+                        <h4>Plantilla de control</h4>
+                        <p>Peso: {data.plantillaControl.peso}</p>
+                        <p>Altura: {data.plantillaControl.altura}</p>
+                        <p>Presión arterial: {data.plantillaControl.presion}</p>
+                        <p>Pulso: {data.plantillaControl.pulso}</p>
+                        <p>Saturación: {data.plantillaControl.saturacion}</p>
+                        <p>Nivel azucar: {data.plantillaControl.nivelAzucar}</p>
+                        <h4>Plantilla de laboratorio</h4>
+                        <p>Tipo: {data.laboratorio.tiposEstudios[0]}</p>
+                        <h5>Items</h5>
+                        {data.laboratorio.items.map(item => (
+                            <p key={item}>{item}</p>
+                        ))}
+                        <h4>Receta</h4>
+                        {data.receta.medicamentos && data.receta.medicamentos.map(medicamento => (
+                            <p key={medicamento.codigo}>{medicamento.descripcion}</p>
+                        ))}
+                    </div>
                 </div>
-
             </form>
         </div >
     );

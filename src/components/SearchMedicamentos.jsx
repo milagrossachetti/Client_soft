@@ -43,8 +43,6 @@ const SearchMedicamentos = ({ onSelectMedicamentos }) => {
     };
 
     const handleSelectMedicamento = (medicamento) => {
-        console.log(medicamento);
-
         onSelectMedicamentos((prevMedicamentos) => [
             ...prevMedicamentos,
             medicamento
