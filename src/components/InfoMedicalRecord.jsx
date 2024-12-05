@@ -44,7 +44,7 @@ const InfoMedicalRecord = ({ patient }) => {
                         </div>
                         <div className='buttons'>
                             <button onClick={() => navigate('/evolutions', { state: { patient, diagnosticoId: diagnostico.id } })} className='button-evolutions button-see-evolutions'>Ver evoluciones <ChevronRight /></button>
-                            <button className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
+                            <button onClick={() => navigate('/evolutions/add', { state: { patient, diagnosticoId: diagnostico.id } })} className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
                         </div>
                     </div>
                 ))}

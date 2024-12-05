@@ -1,0 +1,137 @@
+.buttons-evolutions{
+    display: flex;
+    justify-content: space-between;
+}
+.e-buttons{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+    background-color: #e0e3e7;
+    border-radius: 5px;
+}
+
+.button-content-add{
+    background-color: transparent;
+    color: black;
+    border: none;
+    margin: 5px;
+    width: 100%;
+    text-align: center;
+}
+.button-content-add:focus{
+    background-color: rgb(255, 255, 255);
+}
+
+.button-e-button{
+    margin-left: 10px;
+}
+.content-add-evolution{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-add{
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    width: 50%;
+    margin-right: 10px;
+}
+.texto-libre{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.input-texto-libre{
+    border: 1px solid #d1d5db;
+    width: 97%;
+    border-radius: 5px;
+    height: 150px;
+}
+.input-texto-libre::placeholder{
+    color: black;
+    font-weight: 100;
+}
+
+.control{
+    padding: 20px;
+}
+
+.input-control{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    
+}
+
+.input-button-control{
+    padding: 5px;
+    padding-left: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    width: 97%;
+}
+
+.label-control {
+    justify-content:left; 
+    padding: 5px 10px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+.lab{
+    padding: 20px;
+}
+
+.select-lab{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d1d5db;
+    font-size:medium;
+    width: 100%;
+}
+
+.lab-container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    
+}
+
+.input-lab{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.label-lab{
+    width: 100%;
+}
+
+.container-list-medicamentos{
+    padding: 20px;
+}
+
+.list-medicamentos{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #d1d5db;
+    padding: 10px 10px 10px;
+
+}
+
+.button-delete-medicamento{
+    background-color: rgb(177, 32, 32);
+}
+h4{
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.container-button-add-evolution{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.content-evolution{
+    padding: 10px;
+}

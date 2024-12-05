@@ -5,7 +5,7 @@ const PatientInformation = ({ patient }) => {
             <div className="patient-info">
                 <p><span>CUIL:</span>{patient.cuil}</p>
                 <p><span>Fecha de nacimiento:</span>{patient.fechaNacimiento}</p>
-                <p><span>Obra social:</span>{patient.obraSocialId}</p>
+                <p><span>Obra social:</span>{patient.obraSocial.sigla}</p>
             </div>
         </div>
     )

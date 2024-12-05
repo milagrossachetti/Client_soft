@@ -50,7 +50,7 @@ const SearchComponent = ({ onSelectPatient }) => {
         }
     };
     const handleSelectPatient = (patient) => {
-        onSelectPatient(patient);
+        onSelectPatient(patient); ///lo asigno así lo puedo mostrar en la otra página
         setShowList(false);
     };
 
