@@ -31,7 +31,6 @@ const Signin = () => {
                 const errorMessage = await response.text();
                 setMessage(errorMessage || 'Error desconocido');
             } else {
-                console.log("usuario autenticado");
                 navigate('/menu', { replace: true });
             }
         } catch (error) {

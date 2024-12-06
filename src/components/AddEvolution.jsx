@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import SearchMedicamentos from '../components/SearchMedicamentos'
 import '../styles/addevolution.css';
 
-const AddEvolution = ({ patient, diagnosticoId }) => {
+const AddEvolution = ({ patient, diagnosticoId, onPatientUpdate }) => {
     const [medicamentosSeleccionado, setMedicamentosSeleccionado] = useState([]);
     const diagnostico = patient.historiaClinica.diagnosticos.find(
         (d) => d.id === diagnosticoId
@@ -67,10 +67,6 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
         setValue('laboratorio.items', updatedItems);
     };
 
-    const onSubmit = (data) => {
-        console.log("Evoluciones guardadas:", data);
-    };
-
     const deleteMedicamentoSeleccionado = (medicamentoSeleccionado) => {
         setMedicamentosSeleccionado((prevMedicamentos) =>
             prevMedicamentos.filter((medicamento) => medicamento !== medicamentoSeleccionado)
@@ -79,6 +75,39 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
     useEffect(() => {
         setValue('receta.medicamentos', medicamentosSeleccionado);
     }, [medicamentosSeleccionado, setValue]);
+    const onSubmit = async (data) => {
+        console.log("Evoluciones guardadas:", JSON.stringify(data));
+        const cuilPacienteActual = patient.cuil;
+        const idDiagnosticoActual = diagnosticoId;
+
+        if (!cuilPacienteActual || !idDiagnosticoActual) {
+            console.error("Faltan datos para el paciente o diagnóstico.");
+            return;
+        }
+        try {
+            const response = await fetch(`http://localhost:8080/api/evoluciones/${cuilPacienteActual}/${idDiagnosticoActual}`, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                console.log(errorMessage)
+            } else {
+                console.log("si se agrego con éxito siuuu")
+            }
+        } catch (error) {
+            console.log(error);
+
+        }
+    };
+
+
 
     return (
         <div className="evolutions">
@@ -89,26 +118,28 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
                 </h2>
 
             </div>
+            <div className="e-buttons">
+                <button onClick={() => setButtonSelected("texto")} className='button-content-add'>
+                    <FileText size={18} style={{ marginRight: "8px" }} />
+                    Texto
+                </button>
+                <button onClick={() => setButtonSelected("control")} className='button-content-add'>
+                    <NotepadTextDashed size={18} style={{ marginRight: "8px" }} />
+                    Control
+                </button>
+                <button onClick={() => setButtonSelected("laboratorio")} className='button-content-add'>
+                    <Microscope size={18} style={{ marginRight: "8px" }} />
+                    Laboratorio
+                </button>
+                <button onClick={() => setButtonSelected("receta")} className='button-content-add'>
+                    <Pill size={18} style={{ marginRight: "8px" }} />
+                    Receta
+                </button>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)} className="content-add-evolution">
                 <div className="content-add">
-                    <div className="e-buttons">
-                        <button onClick={() => setButtonSelected("texto")} className='button-content-add'>
-                            <FileText size={18} style={{ marginRight: "8px" }} />
-                            Texto
-                        </button>
-                        <button onClick={() => setButtonSelected("control")} className='button-content-add'>
-                            <NotepadTextDashed size={18} style={{ marginRight: "8px" }} />
-                            Control
-                        </button>
-                        <button onClick={() => setButtonSelected("laboratorio")} className='button-content-add'>
-                            <Microscope size={18} style={{ marginRight: "8px" }} />
-                            Laboratorio
-                        </button>
-                        <button onClick={() => setButtonSelected("receta")} className='button-content-add'>
-                            <Pill size={18} style={{ marginRight: "8px" }} />
-                            Receta
-                        </button>
-                    </div>
+
                     {buttonSelected === "texto" && (
                         <div className='texto-libre'>
                             <h4>Texto libre</h4>
@@ -124,7 +155,7 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
                             <h4>Plantilla de control</h4>
                             <div className='input-control'>
                                 <label htmlFor="peso" className='label-control'>Peso (kg)</label>
-                                <input id="peso" type="number" step="0.1" {...register('plantillaControl.peso')} className='input-button-control' />
+                                <input id="peso" type="number" step="0.01" {...register('plantillaControl.peso')} className='input-button-control' />
                             </div>
                             <div className="input-control">
                                 <label htmlFor="altura" className='label-control'>Altura (m)</label>
@@ -194,28 +225,40 @@ const AddEvolution = ({ patient, diagnosticoId }) => {
                 <div className="content-add content-evolution">
                     <div className='container-button-add-evolution'>
                         <h3>Contenido de la evolución</h3>
-                        <button type="submit" className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Agregar evolución </button>
+                        <button type="submit" className='button-evolutions button-add-evolution'
+                        ><CirclePlus size={18} style={{ marginRight: '10px' }} />Agregar evolución </button>
                     </div>
                     <div>
-                        <h4>Texto</h4>
-                        <p>{data.texto}</p>
-                        <h4>Plantilla de control</h4>
-                        <p>Peso: {data.plantillaControl.peso}</p>
-                        <p>Altura: {data.plantillaControl.altura}</p>
-                        <p>Presión arterial: {data.plantillaControl.presion}</p>
-                        <p>Pulso: {data.plantillaControl.pulso}</p>
-                        <p>Saturación: {data.plantillaControl.saturacion}</p>
-                        <p>Nivel azucar: {data.plantillaControl.nivelAzucar}</p>
-                        <h4>Plantilla de laboratorio</h4>
-                        <p>Tipo: {data.laboratorio.tiposEstudios[0]}</p>
-                        <h5>Items</h5>
-                        {data.laboratorio.items.map(item => (
-                            <p key={item}>{item}</p>
-                        ))}
-                        <h4>Receta</h4>
-                        {data.receta.medicamentos && data.receta.medicamentos.map(medicamento => (
-                            <p key={medicamento.codigo}>{medicamento.descripcion}</p>
-                        ))}
+                        <p className='data-texto-libre'>{data.texto}</p>
+                        {data.plantillaControl && (
+                            <>
+                                <p><strong>Plantilla de control</strong></p>
+                                <div className='data-plantilla-laboratorio'>
+                                    <p className='data-plantilla-laboratorio'>Peso: {data.plantillaControl.peso}</p>
+                                    <p className='data-plantilla-laboratorio'>Altura: {data.plantillaControl.altura}</p>
+                                    <p className='data-plantilla-laboratorio'>Presión arterial: {data.plantillaControl.presion}</p>
+                                    <p className='data-plantilla-laboratorio'>Pulso: {data.plantillaControl.pulso}</p>
+                                    <p className='data-plantilla-laboratorio'>Saturación: {data.plantillaControl.saturacion}</p>
+                                    <p className='data-plantilla-laboratorio'>Nivel azucar: {data.plantillaControl.nivelAzucar}</p>
+                                </div>
+                            </>
+                        )}
+                        {data.laboratorio && (
+                            <>
+                                <p><strong>Plantilla de laboratorio: </strong>{data.laboratorio.tiposEstudios[0]}</p>
+                                {data.laboratorio.items.map(item => (
+                                    <p key={item}>{item}</p>
+                                ))}
+                            </>
+                        )}
+                        {data.receta && data.receta.length > 0 && (
+                            <>
+                                <p><strong>Receta</strong></p>
+                                {data.receta.medicamentos && data.receta.medicamentos.map(medicamento => (
+                                    <p key={medicamento.codigo}>{medicamento.descripcion}</p>
+                                ))}
+                            </>
+                        )}
                     </div>
                 </div>
             </form>
