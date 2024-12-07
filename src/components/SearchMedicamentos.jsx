@@ -4,7 +4,7 @@ import '../styles/searchMedicamentos.css';
 
 const SearchMedicamentos = ({ onSelectMedicamentos }) => {
     const [descripcion, setDescripcion] = useState('');
-    const [medicamentos, setMedicamentos] = useState(null);
+    const [medicamentos, setMedicamentos] = useState([]);
     const [tempDescripcion, setTempDescripcion] = useState("");
     const [showListMedicamentos, setShowListMedicamentos] = useState(null);
 
@@ -24,31 +24,31 @@ const SearchMedicamentos = ({ onSelectMedicamentos }) => {
             if (!response.ok) {
                 const error = await response.text();
                 console.log(error);
-                setShowListMedicamentos(null)
+                setShowListMedicamentos(null);
             } else {
                 const medicamentos = await response.json();
-                setMedicamentos(medicamentos)
-                setShowListMedicamentos(true)
+                setMedicamentos(medicamentos);
+                setShowListMedicamentos(true);
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
+
     const handleChange = (e) => {
         const value = e.target.value;
         setTempDescripcion(value);
         if (value.length >= 3) {
             setDescripcion(value);
-        } else console.log("Ingrese al menos 3 caracteres")
+        } else {
+            console.log("Ingrese al menos 3 caracteres");
+        }
     };
 
     const handleSelectMedicamento = (medicamento) => {
-        onSelectMedicamentos((prevMedicamentos) => [
-            ...prevMedicamentos,
-            medicamento
-        ])
-        setShowListMedicamentos(null)
-    }
+        onSelectMedicamentos(medicamento);
+        setShowListMedicamentos(null);
+    };
 
     return (
         <>
@@ -65,14 +65,14 @@ const SearchMedicamentos = ({ onSelectMedicamentos }) => {
             <div className='container-medicamentos'>
                 {showListMedicamentos && medicamentos && medicamentos.length > 0 && (
                     medicamentos.map(medicamento => (
-                        <div key={medicamento.codigo} className='item-medicamento' onClick={() => handleSelectMedicamento(medicamento)}>{medicamento.descripcion} </div>
+                        <div key={medicamento.codigo} className='item-medicamento' onClick={() => handleSelectMedicamento(medicamento)}>
+                            {medicamento.descripcion}
+                        </div>
                     ))
                 )}
             </div>
-
         </>
-    )
-
-}
+    );
+};
 
 export default SearchMedicamentos;
