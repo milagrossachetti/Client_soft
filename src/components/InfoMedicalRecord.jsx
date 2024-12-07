@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronRight, User, CirclePlus } from 'lucide-react';
 
 
-const InfoMedicalRecord = ({ patient }) => {
+const InfoMedicalRecord = ({ patient, onPatientUpdate }) => {
     const navigate = useNavigate();
     if (!patient) {
         return <p>No se ha seleccionado ningún paciente</p>;
@@ -44,7 +44,7 @@ const InfoMedicalRecord = ({ patient }) => {
                         </div>
                         <div className='buttons'>
                             <button onClick={() => navigate('/evolutions', { state: { patient, diagnosticoId: diagnostico.id } })} className='button-evolutions button-see-evolutions'>Ver evoluciones <ChevronRight /></button>
-                            <button className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
+                            <button onClick={() => navigate('/evolutions/add', { state: { patient, diagnosticoId: diagnostico.id, onPatientUpdate } })} className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
                         </div>
                     </div>
                 ))}
@@ -54,28 +54,5 @@ const InfoMedicalRecord = ({ patient }) => {
 }
 
 
-InfoMedicalRecord.propTypes = {
-    patient: PropTypes.shape({
-        nombreCompleto: PropTypes.string.isRequired,
-        historiaClinica: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            diagnosticos: PropTypes.arrayOf(
-                PropTypes.shape({
-                    id: PropTypes.string.isRequired,
-                    nombreDiagnostico: PropTypes.string.isRequired
-                })
-            ).isRequired
-        }).isRequired,
-        cuil: PropTypes.string.isRequired,
-        dni: PropTypes.string.isRequired,
-        fechaNacimiento: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        direccion: PropTypes.string.isRequired,
-        localidad: PropTypes.string.isRequired,
-        provincia: PropTypes.string.isRequired,
-        pais: PropTypes.string.isRequired,
-        nroAfiliado: PropTypes.string.isRequired,
-        obraSocialId: PropTypes.string.isRequired
-    })
-};
+
 export default InfoMedicalRecord;

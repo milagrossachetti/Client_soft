@@ -1,0 +1,17 @@
+.container-medicamentos{
+    max-height: 200px;
+    overflow-y: scroll;
+    border: 1px solid #d1d5db; 
+    border-top: none;
+    border-radius: 5px;
+    width: 94%;
+    margin-left: 15px;
+}
+.item-medicamento{
+    padding: 5px;
+    padding-left: 10px;
+}
+
+.item-medicamento:hover{
+    background-color: rgb(231, 231, 231);
+}

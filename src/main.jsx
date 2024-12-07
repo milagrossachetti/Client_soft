@@ -6,6 +6,8 @@ import App from './App.jsx';
 import MainMenu from './pages/MainMenu.jsx';
 import MedicalRecord from './pages/MedicalRecord.jsx';
 import Evolutions from './pages/Evolutions.jsx';
+import AddEvolutionPage from './pages/AddEvolutionPage.jsx';
+
 
 
 const routes = createBrowserRouter([
@@ -24,6 +26,11 @@ const routes = createBrowserRouter([
   {
     path: '/evolutions',
     element: <Evolutions />,
+  }
+  ,
+  {
+    path: '/evolutions/add',
+    element: <AddEvolutionPage />,
   }
 ]);
 

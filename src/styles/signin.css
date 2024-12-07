@@ -1,4 +1,4 @@
-form {
+.form-signin {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@ form {
     background-color: white;
 }
 
-form > * {
+.form-signin > * {
     width: 100%;
     text-align: center; 
 }
