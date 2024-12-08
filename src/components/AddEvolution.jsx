@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 import { FileText, NotepadTextDashed, Microscope, Pill, CirclePlus, Trash2 } from 'lucide-react';
 import { useContext } from 'react';
 import { useState, useEffect } from 'react';
@@ -25,7 +26,7 @@ const AddEvolution = () => {
         { name: "Coproparasitoscopía", items: ["Presencia de parásitos", "Leucocitos", "Presencia de sangre oculta", "Grasas fecales", "Consistencia y color"] },
         { name: "Pruebas de función hepática", items: ["Bilirrubina total y fraccionada", "ALT (Alanina aminotransferasa)", "AST (Aspartato aminotransferasa)", "Fosfatasa alcalina (ALP)", "Albúmina sérica", "Tiempo de protrombina (TP)"] }
     ];
-    const { register, handleSubmit, watch, setValue } = useForm({
+    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
         defaultValues: {
             texto: "",
             plantillaControl: {
@@ -100,7 +101,7 @@ const AddEvolution = () => {
             (value) => value === "" || value === null
         );
 
-        const isPlantillaLaboratorioEmpty = Object.values(formData.laboratorio.tiposEstudios).every(
+        const isPlantillaLaboratorioEmpty = Object.values(formData.laboratorio.tiposEstudios).some(
             (value) => value === "" || value === null
         )
 
@@ -145,7 +146,10 @@ const AddEvolution = () => {
                 setMessageError(errorText);
 
             } else {
-                alert("Evolución agregada con éxito");
+                Swal.fire({
+                    title: 'Evolución creada con éxito',
+                    confirmButtonText: 'Aceptar'
+                });
                 updatePatient(patient[0].cuil)
                 navigate('/evolutions', { state: { patient, diagnosticoId: diagnostico.id } });
             }
@@ -197,27 +201,62 @@ const AddEvolution = () => {
                             <h4>Plantilla de control</h4>
                             <div className='input-control'>
                                 <label htmlFor="peso" className='label-control'>Peso (kg)</label>
-                                <input id="peso" type="number" step="0.01" {...register('plantillaControl.peso')} className='input-button-control' />
+                                <input
+                                    id="peso"
+                                    type="number"
+                                    step="0.01"
+                                    {...register('plantillaControl.peso', {
+                                        required: 'El peso no puede tener un valor nulo',
+                                        validate: value => value >= 0 || 'El peso no puede ser negativo'
+                                    })}
+                                    className='input-button-control'
+                                />
+                                <p className="error-message">{errors.plantillaControl?.peso?.message}</p>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="altura" className='label-control'>Altura (m)</label>
-                                <input id="altura" type="number" step="0.01" {...register('plantillaControl.altura')} className='input-button-control' />
+                                <input id="altura" type="number" step="0.01"
+                                    {...register('plantillaControl.altura', {
+                                        required: 'La altura no puede tener un valor nulo',
+                                        validate: value => value >= 0 || 'La altura no puede ser negativa'
+                                    })} className='input-button-control' />
+                                <p className="error-message">{errors.plantillaControl?.altura?.message}</p>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="presion" className='label-control'>Presión arterial</label>
-                                <input id="presion" type="text" {...register('plantillaControl.presion')} className='input-button-control' />
+                                <input id="presion" type="text"
+                                    {...register('plantillaControl.presion', {
+                                        required: 'La presión no puede tener un valor nulo',
+                                        validate: value => value >= 0 || 'La presión no puede tener un valor negativo'
+                                    })} className='input-button-control' />
+                                <p className="error-message">{errors.plantillaControl?.presion?.message}</p>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="pulso" className='label-control'>Pulso</label>
-                                <input id="pulso" type="number" {...register('plantillaControl.pulso')} className='input-button-control' />
+                                <input id="pulso" type="number"
+                                    {...register('plantillaControl.pulso', {
+                                        required: 'El pulso no puede tener un valor nulo',
+                                        validate: value => value >= 0 || 'El pulso no puede ser negativo'
+                                    })} className='input-button-control' />
+                                <p className="error-message">{errors.plantillaControl?.pulso?.message}</p>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="saturacion" className='label-control'>Saturación de oxígeno (%)</label>
-                                <input id="saturacion" type="number" {...register('plantillaControl.saturacion')} className='input-button-control' />
+                                <input id="saturacion" type="number"
+                                    {...register('plantillaControl.saturacion', {
+                                        required: 'La saturación no puede tener un valor nulo',
+                                        validate: value => value >= 0 || 'La saturación no puede tener un valor negativo'
+                                    })} className='input-button-control' />
+                                <p className="error-message">{errors.plantillaControl?.saturacion?.message}</p>
                             </div>
                             <div className="input-control">
                                 <label htmlFor="azucar" className='label-control'>Nivel de azúcar (mg/dL)</label>
-                                <input id='azucar' type="number" {...register('plantillaControl.nivelAzucar')} className='input-button-control' />
+                                <input id='azucar' type="number"
+                                    {...register('plantillaControl.nivelAzucar', {
+                                        required: 'El nivel de azúcar no puede tener un valor nulo',
+                                        validate: value => value >= 0 || 'El nivel de azúcar no puede ser negativo'
+                                    })} className='input-button-control' />
+                                <p className="error-message">{errors.plantillaControl?.nivelAzucar?.message}</p>
                             </div>
                         </div>
                     )}
