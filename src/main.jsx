@@ -7,8 +7,7 @@ import MainMenu from './pages/MainMenu.jsx';
 import MedicalRecord from './pages/MedicalRecord.jsx';
 import Evolutions from './pages/Evolutions.jsx';
 import AddEvolutionPage from './pages/AddEvolutionPage.jsx';
-
-
+import { MedicalProvider } from '../src/components/MedicalContext.jsx'; // Importa tu contexto
 
 const routes = createBrowserRouter([
   {
@@ -36,6 +35,8 @@ const routes = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={routes} />
+    <MedicalProvider>
+      <RouterProvider router={routes} />
+    </MedicalProvider>
   </StrictMode>
 );

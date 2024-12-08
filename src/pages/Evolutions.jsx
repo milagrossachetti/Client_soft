@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar.jsx';
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { MedicalContext } from '../components/MedicalContext';
 import { useNavigate } from 'react-router-dom';
 import Popup from "reactjs-popup";
 import PatientInformation from '../components/PatientInformation.jsx';
@@ -8,16 +9,17 @@ import '../styles/evolutions.css';
 import { NotepadTextDashed, FileText, CirclePlus, Stethoscope } from 'lucide-react';
 
 const Evolutions = () => {
+    const { patient } = useContext(MedicalContext)
     const navigate = useNavigate();
     const location = useLocation();
-    const { patient, diagnosticoId } = location.state || {};
+    const { diagnosticoId } = location.state || {};
 
-    const diagnostico = patient.historiaClinica.diagnosticos.find(
+    const diagnostico = patient[0].historiaClinica.diagnosticos.find(
         d => d.id === diagnosticoId
     );
-    const beneficiario = patient.nombreCompleto;
-    const cobertura = patient.obraSocial.codigo;
-    const nroAfiliado = patient.nroAfiliado;
+    const beneficiario = patient[0].nombreCompleto;
+    const cobertura = patient[0].obraSocial.codigo;
+    const nroAfiliado = patient[0].nroAfiliado;
     const nombreDiagnostico = diagnostico.nombreDiagnostico;
     const [selectedRecetas, setSelectedRecetas] = useState(null);
     const [popupSelected, setPopupSelected] = useState(null)
@@ -26,16 +28,17 @@ const Evolutions = () => {
         setSelectedRecetas(recetas);
         setPopupSelected(true);
     };
+    console.log(diagnostico.evoluciones)
 
     return (
         <div>
             <div className={`body-evolutions ${popupSelected ? 'blur' : ''}`}>
                 <Navbar />
-                <PatientInformation patient={patient} />
+                <PatientInformation />
                 <div className='evolutions'>
                     <div className='title-evolutions'>
                         <h2>Evoluciones de <span style={{ color: '#4a4aa1' }}>{nombreDiagnostico}</span> </h2>
-                        <button onClick={() => navigate('/evolutions/add', { state: { patient, diagnosticoId: diagnostico.id } })} className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
+                        <button onClick={() => navigate('/evolutions/add', { state: { diagnosticoId: diagnostico.id } })} className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
                     </div>
                     {diagnostico.evoluciones.slice().reverse().map((evolucion, index) => (
                         <div key={`${evolucion.id}-${index}`} style={{ display: 'flex' }}>

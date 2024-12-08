@@ -1,21 +1,29 @@
 import '../styles/infoMedicalRecord.css';
 import PatientInformation from '../components/PatientInformation.jsx';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronRight, User, CirclePlus } from 'lucide-react';
+import { useContext, useState, useEffect } from 'react';
+import { MedicalContext } from '../components/MedicalContext';
 
 
-const InfoMedicalRecord = ({ patient, onPatientUpdate }) => {
+const InfoMedicalRecord = () => {
+    const { patient } = useContext(MedicalContext)
+    const [diagnosticos, setDiagnosticos] = useState([]);
     const navigate = useNavigate();
-    if (!patient) {
-        return <p>No se ha seleccionado ningún paciente</p>;
-    }
 
-    const diagnosticos = patient.historiaClinica.diagnosticos;
+    useEffect(() => {
+        if (patient) {
+            setDiagnosticos(patient[0].historiaClinica.diagnosticos);
+        }
+    }, [patient]);
+
+    if (!patient) {
+        return <div>No se ha seleccionado ningún paciente...</div>;
+    }
 
     return (
         <div>
-            <PatientInformation patient={patient} />
+            <PatientInformation />
             <div className="diagnostico-details">
                 <h2>Diagnósticos</h2>
                 {diagnosticos.map(diagnostico => (
@@ -43,8 +51,8 @@ const InfoMedicalRecord = ({ patient, onPatientUpdate }) => {
                             })()}
                         </div>
                         <div className='buttons'>
-                            <button onClick={() => navigate('/evolutions', { state: { patient, diagnosticoId: diagnostico.id } })} className='button-evolutions button-see-evolutions'>Ver evoluciones <ChevronRight /></button>
-                            <button onClick={() => navigate('/evolutions/add', { state: { patient, diagnosticoId: diagnostico.id, onPatientUpdate } })} className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
+                            <button onClick={() => navigate('/evolutions', { state: { diagnosticoId: diagnostico.id } })} className='button-evolutions button-see-evolutions'>Ver evoluciones <ChevronRight /></button>
+                            <button onClick={() => navigate('/evolutions/add', { state: { diagnosticoId: diagnostico.id } })} className='button-evolutions button-add-evolution'><CirclePlus size={18} style={{ marginRight: '10px' }} />Crear evolución </button>
                         </div>
                     </div>
                 ))}

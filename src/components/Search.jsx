@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import Avvvatars from "avvvatars-react";
+import { MedicalContext } from '../components/MedicalContext';
+import { useContext } from 'react';
 import '../styles/search.css';
 
-const SearchComponent = ({ onSelectPatient }) => {
+const SearchComponent = () => {
+    const { updatePatient } = useContext(MedicalContext);
     const [message, setMessage] = useState('');
-    const [showMessage, setShowMessage] = useState(null);
+    const [showMessage, setShowMessage] = useState(false);
     const [patients, setPatients] = useState(null);
     const [cuil, setCuil] = useState('');
-    const [showList, setShowList] = useState(null)
-
+    const [showList, setShowList] = useState(false);
 
     useEffect(() => {
         if (!cuil.trim()) {
@@ -30,28 +32,29 @@ const SearchComponent = ({ onSelectPatient }) => {
                 credentials: 'include',
             });
             if (!response.ok) {
-                setMessage("No hay coincidencias...")
-                setShowMessage(true)
+                setMessage("No hay coincidencias...");
+                setShowMessage(true);
                 setPatients(null);
-                setShowList(null);
+                setShowList(false);
             } else {
                 const patient = await response.json();
                 if (patient.length > 0) {
                     setPatients(patient);
                     setShowList(true);
-                    setShowMessage(false)
+                    setShowMessage(false);
                 } else {
-                    setMessage("No hay coincidencias...")
-                    setShowMessage(true)
+                    setMessage("No hay coincidencias...");
+                    setShowMessage(true);
                 }
             }
         } catch (error) {
-            console.log(error)
+            console.error(error);
         }
     };
+
     const handleSelectPatient = (patient) => {
-        onSelectPatient(patient); ///lo asigno así lo puedo mostrar en la otra página
         setShowList(false);
+        updatePatient(patient.cuil);
     };
 
     return (
@@ -63,8 +66,7 @@ const SearchComponent = ({ onSelectPatient }) => {
                         placeholder="Buscar paciente por CUIL"
                         value={cuil}
                         onChange={(e) => {
-                            setCuil(e.target.value)
-                            onSelectPatient(null)
+                            setCuil(e.target.value);
                             setShowList(true);
                         }}
                     />
@@ -95,8 +97,8 @@ const SearchComponent = ({ onSelectPatient }) => {
                     </div>
                 ))
             )}
-            {showMessage && message && (
-                <div className='options' >
+            {showMessage && (
+                <div className='options'>
                     <ul className="suggestions-list">
                         <li className='error-search'>
                             {message}
@@ -109,4 +111,3 @@ const SearchComponent = ({ onSelectPatient }) => {
 };
 
 export default SearchComponent;
-
