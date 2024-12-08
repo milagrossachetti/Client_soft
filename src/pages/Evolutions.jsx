@@ -22,13 +22,22 @@ const Evolutions = () => {
     const nroAfiliado = patient[0].nroAfiliado;
     const nombreDiagnostico = diagnostico.nombreDiagnostico;
     const [selectedRecetas, setSelectedRecetas] = useState(null);
+    const [selectedPlantillaControl, setSelectedPlantillaControl] = useState(null);
+    const [selectedPlantillaLaboratorio, setSelectedPlantillaLaboratorio] = useState(null);
     const [popupSelected, setPopupSelected] = useState(null)
 
-    const handleOpenPopup = (recetas) => {
+    const handleOpenPopupRecetas = (recetas) => {
         setSelectedRecetas(recetas);
         setPopupSelected(true);
     };
-    console.log(diagnostico.evoluciones)
+    const handleOpenPopupPlantillaControl = (plantillaControl) => {
+        setSelectedPlantillaControl(plantillaControl);
+        setPopupSelected(true);
+    };
+    const handleOpenPopupPlantillaLaboratorio = (plantillaLaboratorio) => {
+        setSelectedPlantillaLaboratorio(plantillaLaboratorio);
+        setPopupSelected(true);
+    };
 
     return (
         <div>
@@ -60,14 +69,14 @@ const Evolutions = () => {
                                     <p>{evolucion.texto}</p>
                                     <div className='evolution-templates'>
                                         {evolucion.plantillaControl && (
-                                            <p className='template-item'><NotepadTextDashed size={18} color="#4a4aa1" style={{ marginRight: '8px' }} />Plantilla de control</p>
+                                            <p className='template-item' onClick={() => { handleOpenPopupPlantillaControl(evolucion.plantillaControl); }}><NotepadTextDashed size={18} color="#4a4aa1" style={{ marginRight: '8px' }} />Plantilla de control</p>
                                         )}
                                         {evolucion.plantillaLaboratorio && (
-                                            <p className='template-item'><NotepadTextDashed size={18} color="#4a4aa1" style={{ marginRight: '8px' }} /> Plantilla de laboratorio</p>
+                                            <p className='template-item' onClick={() => { handleOpenPopupPlantillaLaboratorio(evolucion.plantillaLaboratorio); }}><NotepadTextDashed size={18} color="#4a4aa1" style={{ marginRight: '8px' }} /> Plantilla de laboratorio</p>
                                         )}
                                         {evolucion.recetas.length > 0 && (
                                             <p className='template-item'
-                                                onClick={() => { handleOpenPopup(evolucion.recetas); }}>
+                                                onClick={() => { handleOpenPopupRecetas(evolucion.recetas); }}>
                                                 <FileText size={18} color="#4a4aa1" style={{ marginRight: '8px' }} />
                                                 Recetas
                                             </p>
@@ -118,6 +127,92 @@ const Evolutions = () => {
                     )}
                 </div>
             </Popup>
+            <Popup open={!!selectedPlantillaControl} onClose={() => { setSelectedPlantillaControl(null); setPopupSelected(false); }} modal>
+                <div className='container-recetas'>
+                    {selectedPlantillaControl && (
+                        <ul className='list-receta'>
+                            <div>
+                                <div className='data-policlinica'>
+                                    <p className='name-policlinica' ><Stethoscope style={{ transform: 'rotate(-45deg)', marginRight: '5px' }} />Policlinica MARB</p>
+                                    <p className='item-receta'>BERNARDINO RIVADAVIA 1050, San Miguel de Tucumán</p>
+                                    <p className='item-receta'>Tel: 381</p>
+                                </div>
+                                <div className='data-prescription'>
+                                    <li className='li-receta'>Fecha Plantilla de Control: {new Date().toLocaleDateString()}</li>
+                                </div>
+                                <div className='data-patient'>
+                                    <li className='li-receta'><strong>Peso (kg): </strong>{selectedPlantillaControl.peso}</li>
+                                    <li className='li-receta'><strong>Altura (cm): </strong>{selectedPlantillaControl.altura}</li>
+                                    <li className='li-receta'><strong>Presion arterial: </strong>{selectedPlantillaControl.presion}</li>
+                                    <li className='li-receta'><strong>Pulso: </strong>{selectedPlantillaControl.pulso}</li>
+                                    <li className='li-receta'><strong>Saturación de oxigeno: </strong>{selectedPlantillaControl.saturacion}</li>
+                                    <li className='li-receta'><strong>Nivel de Azúcar (mg/dL): </strong>{selectedPlantillaControl.nivelAzucar}</li>
+                                </div>
+                            </div>
+                        </ul>
+                    )}
+                </div>
+            </Popup>
+            <Popup
+                open={!!selectedPlantillaLaboratorio}
+                onClose={() => {
+                    setSelectedPlantillaLaboratorio(null);
+                    setPopupSelected(false);
+                }}
+                modal
+            >
+                <div className="container-recetas">
+                    {selectedPlantillaLaboratorio && (
+                        <ul className="list-receta">
+                            <div>
+                                <div className="data-policlinica">
+                                    <p className="name-policlinica">
+                                        <Stethoscope
+                                            style={{ transform: "rotate(-45deg)", marginRight: "5px" }}
+                                        />
+                                        Policlinica MARB
+                                    </p>
+                                    <p className="item-receta">BERNARDINO RIVADAVIA 1050, San Miguel de Tucumán</p>
+                                    <p className="item-receta">Tel: 381</p>
+                                </div>
+                                <div className="data-prescription">
+                                    <li className="li-receta">Fecha: {new Date().toLocaleDateString()}</li>
+                                    <li className="li-receta">Pedido de Laboratorio</li>
+                                </div>
+                                <div className="data-patient">
+                                    <li className="li-receta">
+                                        <strong>Beneficiario:</strong> {beneficiario}
+                                    </li>
+                                    <li className="li-receta">
+                                        <strong>Cobertura:</strong> {cobertura}
+                                    </li>
+                                    <li className="li-receta">
+                                        <strong>N° Afiliado:</strong> {nroAfiliado}
+                                    </li>
+                                </div>
+                                <div className="medicamentos-container">
+                                    <li className="li-receta medicamentos">Estudios solicitados:</li>
+                                    {Array.isArray(selectedPlantillaLaboratorio.tiposEstudios) &&
+                                        selectedPlantillaLaboratorio.tiposEstudios.map((estudio, index) => (
+                                            <li key={index} className="li-receta">{estudio}</li>
+                                        ))
+                                    }
+                                </div>
+                                <div className="medicamentos-container">
+                                    <li className="li-receta medicamentos">Items:</li>
+                                    {Array.isArray(selectedPlantillaLaboratorio.items) &&
+                                        selectedPlantillaLaboratorio.items.map((item, index) => (
+                                            <li key={index} className="li-receta">
+                                                {item}
+                                            </li>
+                                        ))}
+                                </div>
+                            </div>
+                        </ul>
+                    )}
+                </div>
+            </Popup>
+
 
         </div>
     )

@@ -180,7 +180,6 @@ const AddEvolution = () => {
                     Receta
                 </button>
             </div>
-
             <form onSubmit={handleSubmit(onSubmit)} className="content-add-evolution">
                 <div className="content-add">
                     {buttonSelected === "texto" && (
