@@ -294,7 +294,13 @@ const AddEvolution = () => {
                                         <option value={lab.name} key={index}>{lab.name}</option>
                                     ))}
                                 </select>
-                                <button className='button-delete-medicamento' onClick={(e) => { restablecerValores(e) }}><Trash2 size={18} /></button>
+                                <button
+                                    className='button-delete-medicamento'
+                                    onClick={(e) => { restablecerValores(e) }}
+                                    disabled={!labSelected}
+                                >
+                                    <Trash2 size={18} />
+                                </button>
                             </div>
                             <div className="lab-container">
                                 {itemsLabSelected && itemsLabSelected.map(item => (

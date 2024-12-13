@@ -90,7 +90,7 @@
     border-radius: 5px;
     border: 1px solid #d1d5db;
     font-size:medium;
-    width: 100%;
+    width: 90%;
     margin-right: 8px;
 }
 
@@ -124,7 +124,14 @@
 
 .button-delete-medicamento{
     background-color: rgb(177, 32, 32);
+    cursor: pointer;
 }
+
+.button-delete-medicamento:disabled {
+    background-color: #d3d3d3; 
+    cursor: not-allowed; 
+}
+
 h4{
     text-align: center;
     margin-bottom: 0;
