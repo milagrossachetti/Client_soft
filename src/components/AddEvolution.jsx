@@ -158,6 +158,31 @@ const AddEvolution = () => {
         }
     };
 
+    const restablecerValores = (event) => {
+        event.preventDefault();
+        setLabSelected(null);
+        setSelectedItems([]);
+        setValue('laboratorio.tiposEstudios', []);
+        setValue('laboratorio.items', []);
+
+        setValue('plantillaControl', {
+            peso: null,
+            altura: null,
+            presion: null,
+            pulso: null,
+            saturacion: null,
+            nivelAzucar: null
+        });
+    };
+
+    // Luego, en el JSX, el botón llamará a esta función cuando se haga clic:
+    <button
+        className='button-evolutions button-add-evolution'
+        onClick={restablecerValores}>
+        Restablecer valores predeterminados
+    </button>
+
+
     return (
         <div className="evolutions">
             <div className="buttons-evolutions">
@@ -263,13 +288,13 @@ const AddEvolution = () => {
                     {buttonSelected === "laboratorio" && (
                         <div className='lab'>
                             <h4>Plantilla de laboratorio</h4>
-                            <div>
+                            <div className='options-lab'>
                                 <select name="type-labs" id="type-labs" onChange={handleChange} className='select-lab'>
                                     {labs.map((lab, index) => (
                                         <option value={lab.name} key={index}>{lab.name}</option>
                                     ))}
                                 </select>
-                                <button>Restablecer valores predeterminados</button>
+                                <button className='button-delete-medicamento' onClick={(e) => { restablecerValores(e) }}><Trash2 size={18} /></button>
                             </div>
                             <div className="lab-container">
                                 {itemsLabSelected && itemsLabSelected.map(item => (
