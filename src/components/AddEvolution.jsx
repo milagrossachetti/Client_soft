@@ -101,7 +101,7 @@ const AddEvolution = () => {
             (value) => value === "" || value === null
         );
 
-        const isPlantillaLaboratorioEmpty = Object.values(formData.laboratorio.tiposEstudios).some(
+        const isPlantillaLaboratorioEmpty = Object.values(formData.laboratorio.tiposEstudios).every(
             (value) => value === "" || value === null
         )
 
@@ -263,11 +263,14 @@ const AddEvolution = () => {
                     {buttonSelected === "laboratorio" && (
                         <div className='lab'>
                             <h4>Plantilla de laboratorio</h4>
-                            <select name="type-labs" id="type-labs" onChange={handleChange} className='select-lab'>
-                                {labs.map((lab, index) => (
-                                    <option value={lab.name} key={index}>{lab.name}</option>
-                                ))}
-                            </select>
+                            <div>
+                                <select name="type-labs" id="type-labs" onChange={handleChange} className='select-lab'>
+                                    {labs.map((lab, index) => (
+                                        <option value={lab.name} key={index}>{lab.name}</option>
+                                    ))}
+                                </select>
+                                <button>Restablecer valores predeterminados</button>
+                            </div>
                             <div className="lab-container">
                                 {itemsLabSelected && itemsLabSelected.map(item => (
                                     <div key={item} className='input-lab'>
