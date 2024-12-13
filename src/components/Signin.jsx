@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { User, Lock } from 'lucide-react';
+import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/signin.css';
 
 const Signin = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     const navigate = useNavigate();
     const values = {
         email: '',
@@ -71,12 +76,19 @@ const Signin = () => {
                             <Lock color="#9ca3af" size={28} style={{ padding: '10px' }} />
                             <input
                                 {...register('contrasenia', { required: 'La contraseña es requerida' })}
-                                type='password'
+                                type={showPassword ? "text" : "password"}
                                 className="custom-input"
                                 placeholder="Contraseña"
                                 onFocus={() => handleFocus('password')}
                                 onBlur={handleBlur}
                             />
+                            <button
+                                className='button-signin-showpassword'
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                            >
+                                {showPassword ? <EyeOff color="#9ca3af" size={22} /> : <Eye color="#9ca3af" size={22} />}
+                            </button>
                         </div>
                     </div>
                     <p className="error-message">{errors.contrasenia?.message}</p>

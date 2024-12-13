@@ -52,18 +52,40 @@ input::placeholder {
     font-weight: 550;
 }
 
+
 .input-wrapper {
     display: flex;
     align-items: center;
+    position: relative;
     overflow: hidden;
     transition: all 0.2s ease;
 }
-  
+
 .input-wrapper.focused {
     border-radius: 6px;
     border-color: #3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
 }
+
+.input-wrapper input {
+    flex: 1; 
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #4b5563;
+}
+.button-signin-showpassword {
+    position: absolute;
+    right: 10px; 
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #2563eb; 
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px;
+}
+
   
 .input-icon {
     padding: 8px;
