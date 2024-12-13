@@ -175,14 +175,6 @@ const AddEvolution = () => {
         });
     };
 
-    // Luego, en el JSX, el botón llamará a esta función cuando se haga clic:
-    <button
-        className='button-evolutions button-add-evolution'
-        onClick={restablecerValores}>
-        Restablecer valores predeterminados
-    </button>
-
-
     return (
         <div className="evolutions">
             <div className="buttons-evolutions">
